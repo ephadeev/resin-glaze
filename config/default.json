@@ -1,0 +1,5 @@
+{
+  "port": 5000,
+  "mongoUri": "mongodb+srv://itrex:itrex@cluster0.rjpta.mongodb.net/notes?retryWrites=true&w=majority",
+  "baseUrl": "http://localhost:5000"
+}

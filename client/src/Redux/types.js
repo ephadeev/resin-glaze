@@ -1,0 +1,4 @@
+// get products
+export const GET_PRODUCTS_STARTED = 'GET_PRODUCTS_STARTED';
+export const GET_PRODUCTS = 'GET_PRODUCTS';
+export const GET_PRODUCTS_FAILURE = 'GET_PRODUCTS_FAILURE';
