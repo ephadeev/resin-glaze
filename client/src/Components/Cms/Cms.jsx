@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 import '../../App.css';
 import Product from './Product';
 
-const Products = ({products}) => {
+const Cms = ({products}) => {
     const productsFromProps = products
         .map(product => {
             return (
@@ -25,7 +25,7 @@ const Products = ({products}) => {
     );
 };
 
-Products.propTypes = {
+Cms.propTypes = {
     products: PropTypes.array
 };
 
@@ -35,4 +35,4 @@ const mapStateToProps = state => {
     }
 };
 
-export default connect(mapStateToProps)(Products);
+export default connect(mapStateToProps)(Cms);
