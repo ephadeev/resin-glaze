@@ -1,5 +1,17 @@
 const router = require('express').Router();
+const multer = require('multer');
 let Products = require('../models/products.model');
+
+const storage = multer.diskStorage({
+    destination: (req, file, callback) => {
+        callback(null, './client/public/uploads');
+    },
+    filename: (req, file, callback) => {
+        callback(null, file.originalname);
+    }
+})
+
+const upload = multer({storage: storage});
 
 // api/products/
 router.route('/').get((req, res) => {
@@ -8,17 +20,26 @@ router.route('/').get((req, res) => {
         .catch(err => res.status(400).json('Error: ' + err))
 });
 
+// api/products/:id
+router.route('/:id').get((req, res) => {
+    Products.findById(req.params.id)
+        .then(products => res.json(products))
+        .catch(err => res.status(400).json('Error: ' + err));
+});
+
 // api/products/add
-router.route('/add').post((req, res) => {
+router.post('/add', upload.single('image'), (req, res) => {
     const name = req.body.name;
     const about = req.body.about;
     const price = req.body.price;
+    const image = req.file.originalname;
 
     const newProduct = new Products(
         {
             name,
             about,
-            price
+            price,
+            image
         }
     );
 
@@ -28,12 +49,13 @@ router.route('/add').post((req, res) => {
 });
 
 // api/products/update/:id
-router.route('/update/:id').post((req, res) => {
+router.put('/update/:id', upload.single('image'), (req, res) => {
     Products.findById(req.params.id)
         .then(product => {
             product.name = req.body.name;
             product.about = req.body.about;
             product.price = req.body.price;
+            product.image = req.file.originalname;
 
             product.save()
                 .then(() => res.json('Product updated'))
