@@ -1,4 +1,5 @@
 import React, {useEffect} from 'react';
+import 'materialize-css';
 import {Route, Redirect} from 'react-router-dom';
 import {connect} from 'react-redux';
 import PropTypes from 'prop-types';
@@ -14,35 +15,44 @@ import Search from './Components/Search/Search';
 import Cms from './Components/Cms/Cms';
 import Authentication from './Components/Authentication/Authentication';
 import Footer from './Components/Footer/Footer';
+import { AuthContext } from './context/AuthContext';
+import {useAuth} from './hooks/auth.hook';
 
 const App = ({getProducts, authorizedUser}) => {
+    const {token, login, logout, userId} = useAuth();
+    const isAuthenticated = !!token;
+    
     useEffect(() => getProducts(), []);
 
     return (
-        <div className="App">
-            <Header />
-            <Nav />
-            <Route exact path='/'>
-                <Main />
-            </Route>
-            <Route exact path='/cart'>
-                <Cart />
-            </Route>
-            <Route exact path='/products'>
-                <Products />
-            </Route>
-            <Route path='/products/:index' component={ProductPage} />
-            <Route exact path='/search'>
-                <Search />
-            </Route>
-            <Route exact path='/cms'>
-                {!authorizedUser ? <Redirect to='/authentication' /> : <Cms />}
-            </Route>
-            <Route exact path='/authentication'>
-                {authorizedUser ? <Redirect to='/cms' /> : <Authentication />}
-            </Route>
-            <Footer />
-        </div>
+        <AuthContext.Provider value={{
+            token, login, logout, userId, isAuthenticated
+        }}>
+            <div className="App">
+                <Header />
+                <Nav />
+                <Route exact path='/'>
+                    <Main />
+                </Route>
+                <Route exact path='/cart'>
+                    <Cart />
+                </Route>
+                <Route exact path='/products'>
+                    <Products />
+                </Route>
+                <Route path='/products/:index' component={ProductPage} />
+                <Route exact path='/search'>
+                    <Search />
+                </Route>
+                <Route exact path='/cms'>
+                    {!isAuthenticated ? <Redirect to='/authentication' /> : <Cms />}
+                </Route>
+                <Route exact path='/authentication'>
+                    {isAuthenticated ? <Redirect to='/cms' /> : <Authentication />}
+                </Route>
+                <Footer />
+            </div>
+        </AuthContext.Provider>
     );
 };
 

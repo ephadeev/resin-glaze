@@ -4,11 +4,16 @@ const cors = require('cors');
 const mongoose = require('mongoose');
 
 const app = express();
+
+app.use(express.json({extended: true}));
+
 const PORT = config.get('port') || 5000;
 
 app.use(cors());
 app.use(express.json());
+app.use('/api/auth', require('./routes/auth'));
 app.use('/api/products', require('./routes/products'));
+
 
 async function start() {
     try {

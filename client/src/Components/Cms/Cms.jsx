@@ -1,8 +1,9 @@
 import React from 'react';
 import {connect} from 'react-redux';
 import PropTypes from 'prop-types';
+import Product from '../Products/Product';
+import {useAuth} from '../../hooks/auth.hook';
 import '../../App.css';
-import Product from './Product';
 
 const Cms = ({products}) => {
     const productsFromProps = products
