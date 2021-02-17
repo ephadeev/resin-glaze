@@ -12,6 +12,7 @@ const Products = ({products}) => {
                     name={product.name}
                     about={product.about}
                     price={product.price}
+                    image={product.image}
                     id={product._id}
                     key={product._id} />
             )

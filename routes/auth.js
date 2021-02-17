@@ -1,5 +1,5 @@
 const router = require('express').Router();
-const bcrypt = require('bcryptjs');
+const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 const config = require('config');
 const {check, validationResult} = require('express-validator');
@@ -77,36 +77,13 @@ router.post(
             {userId: auth.id},
             config.get('jwtSecret'),
             {expiresIn: '1h'}
-        )
+        );
 
         res.json({token, userId: auth.id});
 
     } catch (e) {
         res.status(500).json({message: 'Что-то пошло не так при регистрации'});
     }
-});
-
-
-
-// api/products/add
-router.post('/add', upload.single('image'), (req, res) => {
-    const name = req.body.name;
-    const about = req.body.about;
-    const price = req.body.price;
-    const image = req.file.originalname;
-
-    const newProduct = new Products(
-        {
-            name,
-            about,
-            price,
-            image
-        }
-    );
-
-    newProduct.save()
-        .then(() => res.json('Product added'))
-        .catch(err => res.status(400).json('Error: ' + err));
 });
 
 module.exports = router;

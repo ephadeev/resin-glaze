@@ -1,11 +1,14 @@
-import React from 'react';
+import React, {useState} from 'react';
 import {connect} from 'react-redux';
 import PropTypes from 'prop-types';
 import Product from '../Products/Product';
 import {useAuth} from '../../hooks/auth.hook';
+import {getProducts} from '../../Redux/actions/products-actions';
 import '../../App.css';
+import AddProduct from "./AddProduct";
 
 const Cms = ({products}) => {
+
     const productsFromProps = products
         .map(product => {
             return (
@@ -20,6 +23,7 @@ const Cms = ({products}) => {
     return (
         <main className='wrapper'>
             <div className='container product'>
+                <AddProduct />
                 {productsFromProps}
             </div>
         </main>
@@ -27,7 +31,8 @@ const Cms = ({products}) => {
 };
 
 Cms.propTypes = {
-    products: PropTypes.array
+    products: PropTypes.array,
+    getProducts: PropTypes.func
 };
 
 const mapStateToProps = state => {
@@ -36,4 +41,8 @@ const mapStateToProps = state => {
     }
 };
 
-export default connect(mapStateToProps)(Cms);
+const mapDispatchToProps = {
+    getProducts
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(Cms);
