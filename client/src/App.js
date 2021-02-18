@@ -6,7 +6,6 @@ import PropTypes from 'prop-types';
 import './App.css';
 import {getProducts} from './Redux/actions/products-actions';
 import Header from './Components/Header/Header';
-import Nav from './Components/Nav/Nav';
 import Main from './Components/Main/Main';
 import Cart from './Components/Cart/Cart';
 import Products from './Components/Products/Products';
@@ -28,9 +27,8 @@ const App = ({getProducts, authorizedUser}) => {
         <AuthContext.Provider value={{
             token, login, logout, userId, isAuthenticated
         }}>
-            <div className="App">
+            <>
                 <Header />
-                <Nav />
                 <Route exact path='/'>
                     <Main />
                 </Route>
@@ -51,7 +49,7 @@ const App = ({getProducts, authorizedUser}) => {
                     {isAuthenticated ? <Redirect to='/cms' /> : <Authentication />}
                 </Route>
                 <Footer />
-            </div>
+            </>
         </AuthContext.Provider>
     );
 };
