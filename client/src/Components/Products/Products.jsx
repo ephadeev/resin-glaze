@@ -10,7 +10,6 @@ const Products = ({products}) => {
             return (
                 <Product
                     name={product.name}
-                    about={product.about}
                     price={product.price}
                     image={product.image}
                     id={product._id}
@@ -18,9 +17,11 @@ const Products = ({products}) => {
             )
         });
     return (
-        <main className='wrapper'>
-            <div className='container product'>
-                {productsFromProps}
+        <main className='main'>
+            <div className='container'>
+                <div className='row'>
+                    {productsFromProps}
+                </div>
             </div>
         </main>
     );

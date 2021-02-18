@@ -4,15 +4,16 @@ import {NavLink} from 'react-router-dom';
 const Nav = () => {
     return (
         <nav>
-            <div className="container">
+            <div className="nav-wrapper">
+
                 <NavLink to='/'>
-                <span>Home</span>
+                    <span>Home</span>
                 </NavLink>
                 <NavLink to='/search'>
-                <span>Search</span>
+                    <span>Search</span>
                 </NavLink>
                 <NavLink to='/cart'>
-                <span>Cart</span>
+                    <span>Cart</span>
                 </NavLink>
             </div>
         </nav>
