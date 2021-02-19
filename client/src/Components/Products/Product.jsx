@@ -9,7 +9,7 @@ const Product = ({name, price, image, id, clickPlus}) => {
     const plus = event => {
         event.preventDefault();
         clickPlus(id);
-      }
+    }
 
     return (
         <div className='col s12 m6 l4 product'>
