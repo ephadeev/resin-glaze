@@ -8,6 +8,7 @@ import {getProducts} from './Redux/actions/products-actions';
 import Header from './Components/Header/Header';
 import Main from './Components/Main/Main';
 import Cart from './Components/Cart/Cart';
+import Checkout from './Components/Checkout/Checkout';
 import Products from './Components/Products/Products';
 import ProductPage from './Components/Products/ProductPage';
 import Search from './Components/Search/Search';
@@ -29,13 +30,16 @@ const App = ({getProducts, authorizedUser}) => {
         }}>
             <>
                 <Header />
-                <Route exact path='/'>
+                {/*<Route exact path='/'>
                     <Main />
-                </Route>
+                </Route>*/}
                 <Route exact path='/cart'>
                     <Cart />
                 </Route>
-                <Route exact path='/products'>
+                <Route exact path='/checkout'>
+                    <Checkout />
+                </Route>
+                <Route exact path={['/', '/products']}>
                     <Products />
                 </Route>
                 <Route path='/products/:index' component={ProductPage} />
