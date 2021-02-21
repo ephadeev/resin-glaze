@@ -4,7 +4,7 @@ import {
 let initialState = {
     newProductName: '',
     newProductAbout: '',
-    newProductPrice: null
+    newProductPrice: 0
 };
 
 const cmsReducer = (state = initialState, action) => {
@@ -18,7 +18,6 @@ const cmsReducer = (state = initialState, action) => {
                 ...state,
                 newProductName: action.payload
             }
-
         }
         case ON_CHANGE_PRODUCT_ABOUT: {
             return {

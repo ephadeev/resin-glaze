@@ -1,10 +1,10 @@
 const router = require('express').Router();
 const multer = require('multer');
-let Products = require('../models/products.model');
+const Products = require('../models/products.model');
 
 const storage = multer.diskStorage({
     destination: (req, file, callback) => {
-        callback(null, './client/public/uploads');
+        callback(null, './client/public/uploads/');
     },
     filename: (req, file, callback) => {
         callback(null, file.originalname);
@@ -29,19 +29,12 @@ router.route('/:id').get((req, res) => {
 
 // api/products/add
 router.post('/add', upload.single('image'), (req, res) => {
-    const name = req.body.name;
-    const about = req.body.about;
-    const price = req.body.price;
-    const image = req.file.originalname;
-
-    const newProduct = new Products(
-        {
-            name,
-            about,
-            price,
-            image
-        }
-    );
+    const newProduct = new Products({
+            name: req.body.name,
+            about: req.body.about,
+            price: req.body.price,
+            image: req.file.originalname
+    });
 
     newProduct.save()
         .then(() => res.json('Product added'))

@@ -9,33 +9,19 @@ const AddProduct = ({
                         onChangeProductName, onChangeProductAbout, onChangeProductPrice,
                         getProducts}) => {
 
-    const [fileName, setFileName] = useState('');
-    const onChangeFile = event => {
-        setFileName(event.target.files[0])
-    };
+    const [fileData, setFileData] = useState('');
+    const onChangeFile = event => setFileData(event.target.files[0]);
 
     const addProductHandler = () => {
         const formData = new FormData();
-
         formData.append('name', productName);
         formData.append('about', productAbout);
         formData.append('price', productPrice);
-        formData.append('image', fileName);
-
-
-        /*let product = {
-            name: productName,
-            about: productAbout,
-            price: productPrice,
-            image
-        };*/
+        formData.append('image', fileData);
 
         fetch('http://localhost:5000/api/products/add', {
             method: 'POST',
-            headers: {
-                'Content-Type': 'application/json;charset=utf-8'
-            },
-            body: JSON.stringify(formData)
+            body: formData
         })
             .then(response => response.json())
             .then(() => getProducts())
@@ -51,7 +37,7 @@ const AddProduct = ({
 
     const onChangeName = event => onChangeProductName(event.target.value);
     const onChangeAbout = event => onChangeProductAbout(event.target.value);
-    const onChangePrice = event => onChangeProductPrice(event.target.value);
+    const onChangePrice = event => onChangeProductPrice(Number(event.target.value));
 
     return (
         <div className='card'>
@@ -72,7 +58,7 @@ const AddProduct = ({
                         value={productAbout}
                         required />
                     <input
-                        type='text'
+                        type='number'
                         className='create-note__note-input'
                         placeholder='Цена товара'
                         onChange={onChangePrice}
@@ -83,6 +69,7 @@ const AddProduct = ({
                             <span>Фото</span>
                             <input
                                 type='file'
+                                accept='.png, .jpg, .jpeg'
                                 filename='image'
                                 onChange={onChangeFile}
                                 required />
@@ -93,12 +80,12 @@ const AddProduct = ({
                                 type='text' />
                         </div>
                     </div>
+                    <button type='submit'
+                            className='waves-effect waves-light btn'
+                    >
+                        Добавить товар
+                    </button>
                 </form>
-                <button type='submit'
-                        onClick={addProduct} className='waves-effect waves-light btn'
-                >
-                    Добавить товар
-                </button>
             </div>
         </div>
     )
