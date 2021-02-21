@@ -54,39 +54,52 @@ const AddProduct = ({
     const onChangePrice = event => onChangeProductPrice(event.target.value);
 
     return (
-        <div className='add-product'>
-            <form onSubmit={addProduct} encType='multipart/form-data'>
-                <input
-                    type='text'
-                    className='create-note__note-input'
-                    placeholder='Название товара'
-                    onChange={onChangeName}
-                    value={productName}
-                    required />
-                <input
-                    type='text'
-                    className='create-note__note-input'
-                    placeholder='Описание товара'
-                    onChange={onChangeAbout}
-                    value={productAbout}
-                    required />
-                <input
-                    type='text'
-                    className='create-note__note-input'
-                    placeholder='Цена товара'
-                    onChange={onChangePrice}
-                    value={productPrice}
-                    required />
-                <input
-                    type='file'
-                    filename='image'
-                    onChange={onChangeFile}
-                    required />
-            </form>
-            <button type='submit'
-                    onClick={addProduct}>
-                Добавить товар
-            </button>
+        <div className='card'>
+            <div className='card-content'>
+                <form onSubmit={addProduct} encType='multipart/form-data'>
+                    <input
+                        type='text'
+                        className='create-note__note-input'
+                        placeholder='Название товара'
+                        onChange={onChangeName}
+                        value={productName}
+                        required />
+                    <input
+                        type='text'
+                        className='create-note__note-input'
+                        placeholder='Описание товара'
+                        onChange={onChangeAbout}
+                        value={productAbout}
+                        required />
+                    <input
+                        type='text'
+                        className='create-note__note-input'
+                        placeholder='Цена товара'
+                        onChange={onChangePrice}
+                        value={productPrice}
+                        required />
+                    <div className='file-field input-field'>
+                        <div className='btn'>
+                            <span>Фото</span>
+                            <input
+                                type='file'
+                                filename='image'
+                                onChange={onChangeFile}
+                                required />
+                        </div>
+                        <div className='file-path-wrapper'>
+                            <input
+                                className='file-path validate'
+                                type='text' />
+                        </div>
+                    </div>
+                </form>
+                <button type='submit'
+                        onClick={addProduct} className='waves-effect waves-light btn'
+                >
+                    Добавить товар
+                </button>
+            </div>
         </div>
     )
 };
