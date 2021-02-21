@@ -1,4 +1,5 @@
 import React from 'react';
+import {Link} from 'react-router-dom';
 
 const Footer = () => {
     return (
@@ -6,7 +7,12 @@ const Footer = () => {
             <div className='container'>
                 <div className="row">
                     <div className='col l6 s12'>
-                            <h5>RESIN.GLAZE</h5>
+                        <Link to='/'>
+                            <h5>
+                                <span className='white red-text text-lighten-1 header__logo'>RESIN.</span>
+                                <span className='white-text header__logo'>GLAZE</span>
+                            </h5>
+                        </Link>
                     </div>
                 </div>
             </div>

@@ -1,3 +1,28 @@
 .product {
     position: relative;
 }
+
+.nav__counter {
+    position: absolute;
+    top: 0;
+    right: 5px;
+
+}
+
+.header__logo {
+    border-top: 2px solid white;
+    border-bottom: 2px solid white;
+}
+
+.cart__amount {
+    margin: 0 5px;
+    padding: 5px 10px;
+}
+
+.cart__minus {
+
+}
+
+.cart__plus {
+    margin-right: 15px;
+}
