@@ -5,7 +5,7 @@ import {AuthContext} from '../../context/AuthContext';
 
 const Authentication = () => {
     const auth = useContext(AuthContext);
-    const message = useMessage()
+    const message = useMessage();
     const {loading, request, error, clearError} = useHttp();
     const [form, setForm] = useState({
         email: '',
@@ -15,11 +15,11 @@ const Authentication = () => {
     useEffect(() => {
         message(error);
         clearError();
-    }, [error, message, clearError])
+    }, [error, message, clearError]);
 
     const changeHandler = e => {
         setForm({...form, [e.target.name]: e.target.value})
-    }
+    };
 
     const registerHandler = async () => {
         try {
@@ -28,7 +28,7 @@ const Authentication = () => {
         } catch (e) {
 
         }
-    }
+    };
 
     const loginHandler = async () => {
         try {
@@ -37,7 +37,7 @@ const Authentication = () => {
         } catch (e) {
 
         }
-    }
+    };
 
     return (
         <div>

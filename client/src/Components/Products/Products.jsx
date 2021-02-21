@@ -5,6 +5,7 @@ import '../../App.css';
 import Product from './Product';
 
 const Products = ({products}) => {
+
     const productsFromProps = products
         .map(product => {
             return (
