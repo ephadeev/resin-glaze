@@ -1,4 +1,8 @@
-import {CLICK_BUTTON_PLUS, CLICK_BUTTON_MINUS, POST_ORDER_SUCCESS, ON_CHANGE_FIRST_NAME, ON_CHANGE_LAST_NAME, ON_CHANGE_TEL, ON_CHANGE_STREET, ON_CHANGE_HOME, ON_CHANGE_APARTMENT} from '../types';
+import {
+  CLICK_BUTTON_PLUS, CLICK_BUTTON_MINUS,
+  POST_ORDER_SUCCESS,
+  ON_CHANGE_FIRST_NAME, ON_CHANGE_LAST_NAME, ON_CHANGE_TEL, ON_CHANGE_STREET, ON_CHANGE_HOME, ON_CHANGE_APARTMENT,
+  CREATE_ORDER_STARTED, CREATE_ORDER_SUCCESS, CREATE_ORDER_FAILURE} from '../types';
 
 const initialState = {
   cart: {},
@@ -9,10 +13,12 @@ const initialState = {
   orderTel: 375, 
   orderStreet: '', 
   orderHome: '', 
-  orderApartment: ''
+  orderApartment: '',
+  isLoading: false
 };
 
 const cartReducer = (state = initialState, action) => {
+  console.log(action);
   switch (action.type) {
     case CLICK_BUTTON_PLUS: {
       return {
@@ -41,7 +47,7 @@ const cartReducer = (state = initialState, action) => {
         ...initialState,
       };
     }
-    // order
+    // on change order
     case ON_CHANGE_FIRST_NAME: {
       return {
         ...state,
@@ -78,6 +84,28 @@ const cartReducer = (state = initialState, action) => {
         orderApartment: action.payload
       }
     }
+    // create new order
+    case CREATE_ORDER_STARTED: {
+      return {
+        ...state,
+        isLoading: true
+      }
+    }
+    case CREATE_ORDER_SUCCESS: {
+      return {
+        ...state,
+        ...initialState,
+        orderFirstName: ''
+      }
+    }
+    case CREATE_ORDER_FAILURE: {
+      return {
+        ...state,
+        isLoading: false,
+        error: action.payload.error
+      }
+    }
+    // default
     default:
       return state;
   }

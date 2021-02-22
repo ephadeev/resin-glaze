@@ -11,7 +11,7 @@ router.route('/').get((req, res) => {
 // api/orders/add
 router.post('/add', (req, res) => {
     const newOrder = new Orders({
-            firsrtName: req.body.firsrtName,
+            firstName: req.body.firstName,
             lastName: req.body.lastName,
             tel: req.body.tel,
             city: req.body.city,
@@ -22,7 +22,14 @@ router.post('/add', (req, res) => {
     });
 
     newOrder.save()
-        .then(() => res.json('Order added'))
+        .then(() => res.json('Заказ успешно создан'))
+        .catch(err => res.status(400).json('Error: ' + err));
+});
+
+// api/orders/:id
+router.route('/:id').delete((req, res) => {
+    Orders.findByIdAndDelete(req.params.id)
+        .then(() => res.json('Заказ удалён.'))
         .catch(err => res.status(400).json('Error: ' + err));
 });
 

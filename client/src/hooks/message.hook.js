@@ -6,4 +6,4 @@ export const useMessage = () => {
             window.M.toast({html: text})
         }
     }, [])
-}
+};

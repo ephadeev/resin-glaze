@@ -2,57 +2,39 @@ import React from 'react';
 import {connect} from 'react-redux';
 import {Link} from 'react-router-dom';
 import PropTypes from 'prop-types';
-import {onChangeOrderFirstName, onChangeOrderLastName, onChangeOrderTel,
-    onChangeOrderStreet, onChangeOrderHome, onChangeOrderApartment} from '../../Redux/actions/cart-actions';
+import {onChangeOrderFirstName, onChangeOrderLastName, onChangeOrderTel, onChangeOrderStreet, onChangeOrderHome,
+    onChangeOrderApartment, createOrder} from '../../Redux/actions/cart-actions';
+import {getOrders} from '../../Redux/actions/cms-actions';
+import {useMessage} from '../../hooks/message.hook';
 
 const Checkout = ({
-    counter, 
-    totalAmount, 
-    orderFirstName, 
-    orderLastName, 
-    orderTel, 
-    orderStreet, 
-    orderHome, 
-    orderApartment, 
-    cart, 
-    onChangeOrderFirstName,
-    onChangeOrderLastName,
-    onChangeOrderTel,
-    onChangeOrderStreet,
-    onChangeOrderHome,
-    onChangeOrderApartment}) => {
-    const addOrderHandler = () => {
+                      counter, totalAmount, orderFirstName, orderLastName, orderTel, orderStreet, orderHome,
+                      orderApartment, cart, onChangeOrderFirstName, onChangeOrderLastName, onChangeOrderTel,
+                      onChangeOrderStreet, onChangeOrderHome, onChangeOrderApartment, getOrders, createOrder}) => {
+    const message = useMessage();
 
-        let order = {
-            firsrtName: orderFirstName,
-            lastName: orderLastName,
-            tel: orderTel,
-            city: 'Минск',
-            street: orderStreet,
-            home: orderHome,
-            apartment: orderApartment,
-            cart: cart
-        }
-
-        fetch('http://localhost:5000/api/orders/add', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json;charset=utf-8'
-            },
-            body: JSON.stringify(order)
-        })
-        .then(response => response.json())
-        // .then(() => getOrders())
-        // TODO: сделать редирект на страницу где будет написано, что заказ принят в обработку
-        .catch(err => console.log(err.message))
-    }
+    let order = {
+        firstName: orderFirstName,
+        lastName: orderLastName,
+        tel: orderTel,
+        city: 'Минск',
+        street: orderStreet,
+        home: orderHome,
+        apartment: orderApartment,
+        cart: cart
+    };
 
     const addOrder = event => {
         event.preventDefault();
         if (orderFirstName && orderLastName && orderTel && orderStreet && orderHome && orderApartment) {
-            addOrderHandler();
+            createOrder(order)
+                .then(data => {
+                    message(data);
+                    getOrders();
+                    // TODO: сделать редирект на страницу где будет написано, что заказ принят в обработку
+                })
         }
-    }
+    };
 
     const onChangeFirstName = event => onChangeOrderFirstName(event.target.value);
     const onChangeLastName = event => onChangeOrderLastName(event.target.value);
@@ -107,7 +89,7 @@ const Checkout = ({
                                     value={orderTel}
                                     onChange={onChangeTel}
                                 />
-                                <label htmlFor='icon_telephone'></label>
+                                <label htmlFor='icon_telephone'> </label>
                             </div>
                             <div className='input-field col s6 m6 l6'>
                                 <input 
@@ -117,7 +99,7 @@ const Checkout = ({
                                     value='Минск' 
                                     disabled={true}
                                 />
-                                <label htmlFor='city'></label>
+                                <label htmlFor='city'> </label>
                             </div>
                         </div>
                         <div className='row'>
@@ -187,6 +169,8 @@ Checkout.propTypes = {
     counter: PropTypes.number,
     totalAmount: PropTypes.number,
     cart: PropTypes.object,
+    getOrders: PropTypes.func,
+    createOrder: PropTypes.func
 };
 
 const mapStateToProps = state => {
@@ -199,7 +183,7 @@ const mapStateToProps = state => {
         orderStreet: state.cart.orderStreet, 
         orderHome: state.cart.orderHome, 
         orderApartment: state.cart.orderApartment,
-        cart: state.cart.cart,
+        cart: state.cart.cart
     }
 };
 
@@ -209,7 +193,9 @@ const mapDispatchToProps = {
     onChangeOrderTel,
     onChangeOrderStreet,
     onChangeOrderHome,
-    onChangeOrderApartment
+    onChangeOrderApartment,
+    getOrders,
+    createOrder
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(Checkout);

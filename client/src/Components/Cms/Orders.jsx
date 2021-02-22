@@ -1,11 +1,12 @@
-import React, {useState, useEffect} from 'react';
+import React, {useEffect} from 'react';
 import {connect} from 'react-redux';
 import PropTypes from 'prop-types';
 import '../../App.css';
 import {getOrders} from '../../Redux/actions/cms-actions';
+import Order from './Order';
 
 
-const Orders = ({orders, getOrders, products}) => {
+const Orders = ({orders, getOrders}) => {
     useEffect(() => {
         if (orders.length === 0) {
             getOrders();
@@ -15,16 +16,17 @@ const Orders = ({orders, getOrders, products}) => {
     const ordersFromProps = orders
         .map(order => {
             return (
-                <tr className='row valign-wrapper'>
-                    <td className='col s4 m4 l4'>
-                        {order.firsrtName} {order.lastName} {order.tel}
-                    </td>
-                    <td className='col s4 m4 l4'>{order.city} {order.street}{order.home} {order.apartment}</td>
-                    <td className='col s3 m3 l3'>{JSON.stringify(order.cart)}</td>
-                    <td className='col s1 m1 l1'>
-                        <button className='btn-floating btn-small waves-effect waves-light red'><i className='material-icons'>delete</i></button>
-                    </td>
-                </tr>
+                <Order
+                    firstName={order.firstName}
+                    lastName={order.lastName}
+                    tel={order.tel}
+                    city={order.city}
+                    street={order.street}
+                    home={order.home}
+                    apartment={order.apartment}
+                    cart={order.cart}
+                    id={order._id}
+                    key={order._id} />
             )
         });
     return (
@@ -37,7 +39,7 @@ const Orders = ({orders, getOrders, products}) => {
                             <th className='col s4 m4 l4'>Адрес</th>
                             <th className='col s3 m3 l3'>Заказ</th>
                             {/* <th className='col s2 m2 l2'>Дата</th> */}
-                            <th className='col s1 m1 l1'></th>
+                            <th className='col s1 m1 l1'> </th>
                         </tr>
                     </thead>
                     <tbody>
@@ -51,14 +53,12 @@ const Orders = ({orders, getOrders, products}) => {
 
 Orders.propTypes = {
     orders: PropTypes.array,
-    getOrders: PropTypes.func,
-    products: PropTypes.array
+    getOrders: PropTypes.func
 };
 
 const mapStateToProps = state => {
     return {
-        orders: state.cms.orders,
-        products: state.products.products
+        orders: state.cms.orders
     }
 };
 

@@ -2,7 +2,7 @@ const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 
 const ordersSchema = new Schema({
-        firsrtName: {type: String, required: true, unique: false},
+        firstName: {type: String, required: true, unique: false},
         lastName: {type: String, required: true},
         tel: {type: Number, required: true},
         city: {type: String, required: true},
