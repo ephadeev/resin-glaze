@@ -5,8 +5,10 @@ import {connect} from 'react-redux';
 import PropTypes from 'prop-types';
 import './App.css';
 import {getProducts} from './Redux/actions/products-actions';
+import {getOrders} from './Redux/actions/cms-actions';
 import Header from './Components/Header/Header';
 import Main from './Components/Main/Main';
+import Orders from './Components/Cms/Orders';
 import Cart from './Components/Cart/Cart';
 import Checkout from './Components/Checkout/Checkout';
 import Products from './Components/Products/Products';
@@ -18,11 +20,16 @@ import Footer from './Components/Footer/Footer';
 import { AuthContext } from './context/AuthContext';
 import {useAuth} from './hooks/auth.hook';
 
-const App = ({getProducts, authorizedUser}) => {
+const App = ({getProducts, totalAmount, getOrders}) => {
     const {token, login, logout, userId} = useAuth();
     const isAuthenticated = !!token;
     
     useEffect(() => getProducts(), []);
+    useEffect(() => {
+        if (isAuthenticated) {
+            getOrders();
+        }
+    }, []);
 
     return (
         <AuthContext.Provider value={{
@@ -37,7 +44,7 @@ const App = ({getProducts, authorizedUser}) => {
                     <Cart />
                 </Route>
                 <Route exact path='/checkout'>
-                    <Checkout />
+                    {totalAmount === 0 ? <Redirect to='/cart' /> : <Checkout />}
                 </Route>
                 <Route exact path={['/', '/products']}>
                     <Products />
@@ -48,6 +55,9 @@ const App = ({getProducts, authorizedUser}) => {
                 </Route>
                 <Route exact path='/cms'>
                     {!isAuthenticated ? <Redirect to='/authentication' /> : <Cms />}
+                </Route>
+                <Route exact path='/orders'>
+                    {!isAuthenticated ? <Redirect to='/authentication' /> : <Orders />}
                 </Route>
                 <Route exact path='/authentication'>
                     {isAuthenticated ? <Redirect to='/cms' /> : <Authentication />}
@@ -60,17 +70,19 @@ const App = ({getProducts, authorizedUser}) => {
 
 App.propTypes = {
     getProducts: PropTypes.func,
-    authorizedUser: PropTypes.object
+    totalAmount: PropTypes.number,
+    getOrders: PropTypes.func
 };
 
 const mapStateToProps = state => {
     return {
-        authorizedUser: state.cms.authorizedUser,
+        totalAmount: state.cart.totalAmount
     }
 };
 
 const mapDispatchToProps = {
-    getProducts
+    getProducts,
+    getOrders
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(App);

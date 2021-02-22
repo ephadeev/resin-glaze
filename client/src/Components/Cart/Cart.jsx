@@ -2,22 +2,14 @@ import React from 'react';
 import {connect} from 'react-redux';
 import {Link} from 'react-router-dom';
 import PropTypes from 'prop-types';
-import {clickPlus, clickMinus} from '../../Redux/actions/cart-actions';
+import CartProduct from './CartProduct';
 
-const Cart = ({cart, products, clickPlus, clickMinus, totalAmount}) => {
+const Cart = ({cart, products, totalAmount}) => {
     // количество видов товаров в корзине:
     console.log(Object.keys(cart).length);
 
     const cartProductsData = products.filter(product => cart[product._id]);
     console.log('cartProductsData', cartProductsData);
-
-    const plus = (id, price) => {
-        clickPlus(id, price);
-    };
-
-    const minus = (id, price) => {
-        clickMinus(id, price);
-    };
 
     return (
         <main className='main'>
@@ -38,28 +30,13 @@ const Cart = ({cart, products, clickPlus, clickMinus, totalAmount}) => {
                     )}
                     {cartProductsData.map(product => {
                         return (
-                            <li className='collection-item avatar'>
-                                <img src={`/uploads/${product.image}`} alt="" className='circle' />
-                                <span className="title">{product.name}</span>
-                                <span className='secondary-content valign-wrapper'>
-                                    <button
-                                        className='btn-floating btn-small waves-effect waves-light teal hoverable cart__minus'
-                                        onClick={() => minus(product._id, product.price)}
-                                    >
-                                        <i className='small material-icons'>remove</i>
-                                    </button>
-                                    <span className='card-panel teal white-text cart__amount'>
-                                        {cart[product._id]}
-                                    </span>
-                                    <button
-                                        className='btn-floating btn-small waves-effect waves-light teal hoverable cart__plus'
-                                        onClick={() => plus(product._id, product.price)}
-                                    >
-                                        <i className='small material-icons'>add</i>
-                                    </button>
-                                    {product.price * cart[product._id]}<span> руб.</span>
-                                </span>
-                            </li>
+                            <CartProduct 
+                                image={product.image} 
+                                name={product.name} 
+                                id={product._id} 
+                                price={product.price} 
+                                key={product._id}
+                            />
                         )
                     })}
                 </ul>
@@ -81,8 +58,6 @@ const Cart = ({cart, products, clickPlus, clickMinus, totalAmount}) => {
 Cart.propTypes = {
     cart: PropTypes.object,
     products: PropTypes.array,
-    clickPlus: PropTypes.func,
-    clickMinus: PropTypes.func,
     totalAmount: PropTypes.number
 };
 
@@ -95,8 +70,7 @@ const mapStateToProps = state => {
 };
 
 const mapDispatchToProps = {
-    clickPlus,
-    clickMinus
+    
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(Cart);

@@ -30,8 +30,9 @@ const Cms = ({products}) => {
     return (
         <main className='main'>
             <div className='container'>
+                <h3 className='white-text highlight'>Добавить товар</h3>
                 <AddProduct />
-
+                <h3 className='white-text center'>Товары</h3>
                 <table className='white-text highlight'>
                     <thead>
                         <tr className='row'>
