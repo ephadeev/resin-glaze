@@ -1,7 +1,8 @@
 import React from 'react';
 import {connect} from 'react-redux';
-import {Link} from 'react-router-dom';
+import {Link, useHistory} from 'react-router-dom';
 import PropTypes from 'prop-types';
+import {Helmet} from 'react-helmet';
 import {onChangeOrderFirstName, onChangeOrderLastName, onChangeOrderTel, onChangeOrderStreet, onChangeOrderHome,
     onChangeOrderApartment, createOrder} from '../../Redux/actions/cart-actions';
 import {getOrders} from '../../Redux/actions/cms-actions';
@@ -12,6 +13,7 @@ const Checkout = ({
                       orderApartment, cart, onChangeOrderFirstName, onChangeOrderLastName, onChangeOrderTel,
                       onChangeOrderStreet, onChangeOrderHome, onChangeOrderApartment, getOrders, createOrder}) => {
     const message = useMessage();
+    const history = useHistory();
 
     let order = {
         firstName: orderFirstName,
@@ -31,7 +33,7 @@ const Checkout = ({
                 .then(data => {
                     message(data);
                     getOrders();
-                    // TODO: сделать редирект на страницу где будет написано, что заказ принят в обработку
+                    history.push('/order-completed');
                 })
         }
     };
@@ -44,124 +46,129 @@ const Checkout = ({
     const onChangeApartment = event => onChangeOrderApartment(event.target.value);
 
     return (
-        <main className='main'>
-            <nav className='center'>
-                <div className="nav-wrapper">
-                    <div className="col s12">
-                        <Link to='/cart' className='breadcrumb'>Корзина</Link>
-                        <Link to='/checkout' className='breadcrumb'>Оформление заказа</Link>
+        <>
+            <Helmet>
+                <title>Оформление заказа</title>
+            </Helmet>
+            <main className='main'>
+                <nav className='center'>
+                    <div className="nav-wrapper">
+                        <div className="col s12">
+                            <Link to='/cart' className='breadcrumb'>Корзина</Link>
+                            <Link to='/checkout' className='breadcrumb'>Оформление заказа</Link>
+                        </div>
+                    </div>
+                </nav>
+                <div className='container'>
+                    <div className='row'>
+                        <h4 className='white-text'>Оформление заказа</h4>
+                        <form onSubmit={addOrder} className='col s12 m12 l12 white'>
+                            <div className='row'>
+                                <div className='input-field col s6 m6 l6'>
+                                    <input
+                                        id='first_name'
+                                        type='text'
+                                        className='validate'
+                                        value={orderFirstName}
+                                        onChange={onChangeFirstName}
+                                    />
+                                        <label htmlFor='first_name'>Имя</label>
+                                </div>
+                                <div className='input-field col s6 m6 l6'>
+                                    <input
+                                        id='last_name'
+                                        type='text'
+                                        className='validate'
+                                        value={orderLastName}
+                                        onChange={onChangeLastName}
+                                    />
+                                        <label htmlFor='last_name'>Фамилия</label>
+                                </div>
+                            </div>
+                            <div className='row'>
+                                <div className='input-field col s6 m6 l6'>
+                                    <i className='material-icons prefix'>phone</i>
+                                    <input
+                                        id='icon_telephone'
+                                        type='tel'
+                                        className='validate'
+                                        value={orderTel}
+                                        onChange={onChangeTel}
+                                    />
+                                    <label htmlFor='icon_telephone'> </label>
+                                </div>
+                                <div className='input-field col s6 m6 l6'>
+                                    <input
+                                        id='city'
+                                        type='text'
+                                        className='validate'
+                                        value='Минск'
+                                        disabled={true}
+                                    />
+                                    <label htmlFor='city'> </label>
+                                </div>
+                            </div>
+                            <div className='row'>
+                                <div className='input-field col s4 m4 l4'>
+                                    <input
+                                        id='street'
+                                        type='tel'
+                                        className='validate'
+                                        value={orderStreet}
+                                        onChange={onChangeStreet}
+                                    />
+                                    <label htmlFor='street'>Улица</label>
+                                </div>
+                                <div className='input-field col s4 m4 l4'>
+                                    <input
+                                        id='home'
+                                        type='text'
+                                        className='validate'
+                                        value={orderHome}
+                                        onChange={onChangeHome}
+                                    />
+                                    <label htmlFor='home'>Дом</label>
+                                </div>
+                                <div className='input-field col s4 m4 l4'>
+                                    <input
+                                        id='apartment'
+                                        type='text'
+                                        className='validate'
+                                        value={orderApartment}
+                                        onChange={onChangeApartment}
+                                    />
+                                    <label htmlFor='apartment'>Квартира</label>
+                                </div>
+                                <div className='col s12 m12 l12'>
+                                    <h4>Итого</h4>
+                                    <p>{counter > 0 && counter} товар(а / ов) на сумму {totalAmount > 0 && totalAmount} руб.</p>
+                                    <p>Стоимость доставки 0 руб.</p>
+                                    <p>К оплате {totalAmount > 0 && totalAmount} руб.</p>
+                                    <button type='submit' className='waves-effect waves-light btn'>Подтвердить заказ</button>
+                                    {/* <p>
+                                        Подтверждая заказ, я принимаю условия
+                                        <a className="modal-trigger"
+                                        href="#modal1"
+                                        >
+                                            пользовательского соглашения
+                                        </a>
+                                    </p>
+                                    <div id="modal1" className="modal">
+                                        <div className="modal-content">
+                                            <h4>Пользовательское соглашение</h4>
+                                            <p>
+                                                Я согласен(а) с условиями политики конфиденциальности и разрешаю использовать мои
+                                                персональные данные на законных основаниях.
+                                            </p>
+                                        </div>
+                                    </div> */}
+                                </div>
+                            </div>
+                        </form>
                     </div>
                 </div>
-            </nav>
-            <div className='container'>
-                <div className='row'>
-                    <h4 className='white-text'>Оформление заказа</h4>
-                    <form onSubmit={addOrder} className='col s12 m12 l12 white'>
-                        <div className='row'>
-                            <div className='input-field col s6 m6 l6'>
-                                <input 
-                                    id='first_name' 
-                                    type='text' 
-                                    className='validate' 
-                                    value={orderFirstName} 
-                                    onChange={onChangeFirstName}
-                                />
-                                    <label htmlFor='first_name'>Имя</label>
-                            </div>
-                            <div className='input-field col s6 m6 l6'>
-                                <input 
-                                    id='last_name' 
-                                    type='text' 
-                                    className='validate' 
-                                    value={orderLastName} 
-                                    onChange={onChangeLastName}
-                                />
-                                    <label htmlFor='last_name'>Фамилия</label>
-                            </div>
-                        </div>
-                        <div className='row'>
-                            <div className='input-field col s6 m6 l6'>
-                                <i className='material-icons prefix'>phone</i>
-                                <input
-                                    id='icon_telephone'
-                                    type='tel'
-                                    className='validate' 
-                                    value={orderTel}
-                                    onChange={onChangeTel}
-                                />
-                                <label htmlFor='icon_telephone'> </label>
-                            </div>
-                            <div className='input-field col s6 m6 l6'>
-                                <input 
-                                    id='city' 
-                                    type='text' 
-                                    className='validate' 
-                                    value='Минск' 
-                                    disabled={true}
-                                />
-                                <label htmlFor='city'> </label>
-                            </div>
-                        </div>
-                        <div className='row'>
-                            <div className='input-field col s4 m4 l4'>
-                                <input 
-                                    id='street' 
-                                    type='tel' 
-                                    className='validate' 
-                                    value={orderStreet} 
-                                    onChange={onChangeStreet}
-                                />
-                                <label htmlFor='street'>Улица</label>
-                            </div>
-                            <div className='input-field col s4 m4 l4'>
-                                <input 
-                                    id='home' 
-                                    type='text' 
-                                    className='validate' 
-                                    value={orderHome} 
-                                    onChange={onChangeHome}
-                                />
-                                <label htmlFor='home'>Дом</label>
-                            </div>
-                            <div className='input-field col s4 m4 l4'>
-                                <input 
-                                    id='apartment' 
-                                    type='text' 
-                                    className='validate' 
-                                    value={orderApartment} 
-                                    onChange={onChangeApartment}
-                                />
-                                <label htmlFor='apartment'>Квартира</label>
-                            </div>
-                            <div className='col s12 m12 l12'>
-                                <h4>Итого</h4>
-                                <p>{counter > 0 && counter} товар(а / ов) на сумму {totalAmount > 0 && totalAmount} руб.</p>
-                                <p>Стоимость доставки 0 руб.</p>
-                                <p>К оплате {totalAmount > 0 && totalAmount} руб.</p>
-                                <button type='submit' className='waves-effect waves-light btn'>Подтвердить заказ</button>
-                                {/* <p>
-                                    Подтверждая заказ, я принимаю условия
-                                    <a className="modal-trigger"
-                                    href="#modal1"
-                                    >
-                                        пользовательского соглашения
-                                    </a>
-                                </p>
-                                <div id="modal1" className="modal">
-                                    <div className="modal-content">
-                                        <h4>Пользовательское соглашение</h4>
-                                        <p>
-                                            Я согласен(а) с условиями политики конфиденциальности и разрешаю использовать мои
-                                            персональные данные на законных основаниях.
-                                        </p>
-                                    </div>
-                                </div> */}
-                            </div>
-                        </div>
-                    </form>
-                </div>
-            </div>
-        </main>
+            </main>
+        </>
     );
 };
 
