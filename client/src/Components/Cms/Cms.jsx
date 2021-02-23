@@ -5,26 +5,20 @@ import Product from '../Products/Product';
 import {useAuth} from '../../hooks/auth.hook';
 import '../../App.css';
 import AddProduct from "./AddProduct";
+import CmsProduct from './CmsProduct';
 
 const Cms = ({products}) => {
 
     const productsFromProps = products
         .map(product => {
             return (
-                <tr className='row valign-wrapper'>
-                    <td className='col s2 m2 l2'>
-                        <img
-                            src={`/uploads/${product.image}`}
-                            alt='Изображение товара'
-                            className='circle responsive-img' />
-                    </td>
-                    <td className='col s3 m3 l3'>{product.name}</td>
-                    <td className='col s4 m4 l4'>{product.about}</td>
-                    <td className='col s2 m2 l2'>{product.price}</td>
-                    <td className='col s1 m1 l1'>
-                        <button className='btn-floating btn-small waves-effect waves-light red'><i className='material-icons'>delete</i></button>
-                    </td>
-                </tr>
+                <CmsProduct 
+                    image={product.image} 
+                    name={product.name} 
+                    about={product.about} 
+                    price={product.price} 
+                    id={product._id}
+                    key={product._id} />
             )
         });
     return (

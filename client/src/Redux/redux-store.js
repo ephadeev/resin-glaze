@@ -11,6 +11,6 @@ let reducers = combineReducers({
     cart: cartReducer
 });
 
-let store = createStore(reducers, applyMiddleware(thunk, reduxLogger));
+const store = createStore(reducers, applyMiddleware(thunk, reduxLogger));
 
 export default store;

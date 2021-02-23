@@ -60,7 +60,7 @@ router.put('/update/:id', upload.single('image'), (req, res) => {
 // api/products/:id
 router.route('/:id').delete((req, res) => {
     Products.findByIdAndDelete(req.params.id)
-        .then(() => res.json('Product deleted.'))
+        .then(() => res.json('Товар успешно удален.'))
         .catch(err => res.status(400).json('Error: ' + err));
 });
 
