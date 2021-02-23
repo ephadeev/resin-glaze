@@ -19,6 +19,7 @@ import Authentication from './Components/Authentication/Authentication';
 import Footer from './Components/Footer/Footer';
 import { AuthContext } from './context/AuthContext';
 import {useAuth} from './hooks/auth.hook';
+import OrderCompleted from './Components/OrderCompleted/OrderCompleted';
 
 const App = ({getProducts, totalAmount, getOrders}) => {
     const {token, login, logout, userId} = useAuth();
@@ -49,6 +50,7 @@ const App = ({getProducts, totalAmount, getOrders}) => {
                 <Route exact path={['/', '/products']}>
                     <Products />
                 </Route>
+                <Route exact path='/order-completed' component={OrderCompleted} />
                 <Route path='/products/:index' component={ProductPage} />
                 <Route exact path='/search'>
                     <Search />
