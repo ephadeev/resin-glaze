@@ -1,10 +1,15 @@
 import React from 'react';
 import {connect} from 'react-redux';
 import PropTypes from 'prop-types';
+import {Helmet} from 'react-helmet';
 import '../../App.css';
 import Product from './Product';
+import Loader from "../Loader/Loader";
 
-const Products = ({products}) => {
+const Products = ({products, isLoading}) => {
+    if (isLoading) {
+        return <Loader />
+    }
 
     const productsFromProps = products
         .map(product => {
@@ -18,23 +23,30 @@ const Products = ({products}) => {
             )
         });
     return (
-        <main className='main'>
-            <div className='container'>
-                <div className='row'>
-                    {productsFromProps}
+        <>
+            <Helmet>
+                <title>Каталог</title>
+            </Helmet>
+            <main className='main'>
+                <div className='container'>
+                    <div className='row'>
+                        {productsFromProps}
+                    </div>
                 </div>
-            </div>
-        </main>
+            </main>
+        </>
     );
 };
 
 Products.propTypes = {
-    products: PropTypes.array
+    products: PropTypes.array,
+    isLoading: PropTypes.bool
 };
 
 const mapStateToProps = state => {
     return {
-        products: state.products.products
+        products: state.products.products,
+        isLoading: state.products.isLoading
     }
 };
 

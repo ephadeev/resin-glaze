@@ -6,6 +6,7 @@ import {useAuth} from '../../hooks/auth.hook';
 import '../../App.css';
 import AddProduct from "./AddProduct";
 import CmsProduct from './CmsProduct';
+import {Helmet} from "react-helmet";
 
 const Cms = ({products}) => {
 
@@ -22,28 +23,33 @@ const Cms = ({products}) => {
             )
         });
     return (
-        <main className='main'>
-            <div className='container'>
-                <h3 className='white-text highlight'>Добавить товар</h3>
-                <AddProduct />
-                <h3 className='white-text center'>Товары</h3>
-                <table className='white-text highlight'>
-                    <thead>
-                        <tr className='row'>
-                            <th className='col s2 m2 l2'>Фото</th>
-                            <th className='col s3 m3 l3'>Название</th>
-                            <th className='col s4 m4 l4'>Описание</th>
-                            <th className='col s2 m2 l2'>Цена</th>
-                            <th className='col s1 m1 l1'></th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        {productsFromProps}
-                    </tbody>
-                </table>
+        <>
+            <Helmet>
+                <title>CMS</title>
+            </Helmet>
+            <main className='main'>
+                <div className='container'>
+                    <h3 className='white-text highlight'>Добавить товар</h3>
+                    <AddProduct />
+                    <h3 className='white-text center'>Товары</h3>
+                    <table className='white-text highlight'>
+                        <thead>
+                            <tr className='row'>
+                                <th className='col s2 m2 l2'>Фото</th>
+                                <th className='col s3 m3 l3'>Название</th>
+                                <th className='col s4 m4 l4'>Описание</th>
+                                <th className='col s2 m2 l2'>Цена</th>
+                                <th className='col s1 m1 l1'></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {productsFromProps}
+                        </tbody>
+                    </table>
 
-            </div>
-        </main>
+                </div>
+            </main>
+        </>
     );
 };
 
