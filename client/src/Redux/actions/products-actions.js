@@ -1,15 +1,23 @@
-import {GET_PRODUCTS_STARTED, GET_PRODUCTS, GET_PRODUCTS_FAILURE} from '../types';
+import {
+    GET_PRODUCTS_STARTED, GET_PRODUCTS, GET_PRODUCTS_FAILURE,
+    GET_PRODUCT_STARTED, GET_PRODUCT, GET_PRODUCT_FAILURE} from '../types';
 
 // get products
-const getProductsStarted = () => ({type: GET_PRODUCTS_STARTED});
-const setProducts = products => ({type: GET_PRODUCTS, products});
-const getProductsFailure = error => ({type: GET_PRODUCTS_FAILURE, payload: {error}});
 export const getProducts = () => {
     return dispatch => {
-        dispatch(getProductsStarted);
+        dispatch({type: GET_PRODUCTS_STARTED});
         fetch('http://localhost:5000/api/products/')
             .then(response => response.json())
-            .then(data => dispatch(setProducts(data)))
-            .catch(err => dispatch(getProductsFailure(err)))
+            .then(products => dispatch({type: GET_PRODUCTS, products}))
+            .catch(error => dispatch({type: GET_PRODUCTS_FAILURE, payload: {error}}))
     }
+};
+
+// get product
+export const getProduct = id => dispatch => {
+        dispatch({type: GET_PRODUCT_STARTED});
+        fetch(`http://localhost:5000/api/products/${id}`)
+            .then(response => response.json())
+            .then(product => dispatch({type: GET_PRODUCT, product}))
+            .catch(error => dispatch({type: GET_PRODUCT_FAILURE, payload: {error}}))
 };
