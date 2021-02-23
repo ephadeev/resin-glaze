@@ -2,6 +2,10 @@
     position: relative;
 }
 
+.product__about {
+    margin-bottom: 15px;
+}
+
 .nav__counter {
     position: absolute;
     top: 0;
@@ -25,4 +29,11 @@
 
 .cart__plus {
     margin-right: 15px;
+}
+
+.loader {
+    display: flex;
+    justify-content: center;
+    padding-top: 17rem;
+    padding-bottom: 17rem;
 }
