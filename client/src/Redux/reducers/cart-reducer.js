@@ -18,7 +18,6 @@ const initialState = {
 };
 
 const cartReducer = (state = initialState, action) => {
-  console.log(action);
   switch (action.type) {
     case CLICK_BUTTON_PLUS: {
       return {

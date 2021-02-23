@@ -15,11 +15,8 @@ export const onChangeOrderHome = order => ({type: ON_CHANGE_HOME, payload: order
 export const onChangeOrderApartment = order => ({type: ON_CHANGE_APARTMENT, payload: order});
 
 // create new order
-const createOrderStarted = () => ({type: CREATE_ORDER_STARTED});
-const createOrderSuccess = () => ({type: CREATE_ORDER_SUCCESS});
-const createOrderFailure = error => ({type: CREATE_ORDER_FAILURE, payload: {error}});
 export const createOrder = order => dispatch => {
-    dispatch(createOrderStarted);
+    dispatch({type: CREATE_ORDER_STARTED});
     return fetch('http://localhost:5000/api/orders/add', {
         method: 'POST',
         headers: {
@@ -28,8 +25,8 @@ export const createOrder = order => dispatch => {
         body: JSON.stringify(order)
     })
         .then(response => {
-            dispatch(createOrderSuccess);
+            dispatch({type: CREATE_ORDER_SUCCESS});
             return response.json();
         })
-        .catch(err => dispatch(createOrderFailure(err)))
+        .catch(error => dispatch({type: CREATE_ORDER_FAILURE, payload: {error}}))
 };

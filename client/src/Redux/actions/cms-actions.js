@@ -8,15 +8,12 @@ export const onChangeProductAbout = product => ({type: ON_CHANGE_PRODUCT_ABOUT, 
 export const onChangeProductPrice = product => ({type: ON_CHANGE_PRODUCT_PRICE, payload: product});
 
 // get orders
-const getOrdersStarted = () => ({type: GET_ORDERS_STARTED});
-const setOrders = orders => ({type: GET_ORDERS, orders});
-const getOrdersFailure = error => ({type: GET_ORDERS_FAILURE, payload: {error}});
 export const getOrders = () => {
     return dispatch => {
-        dispatch(getOrdersStarted);
+        dispatch({type: GET_ORDERS_STARTED});
         fetch('http://localhost:5000/api/orders/')
             .then(response => response.json())
-            .then(data => dispatch(setOrders(data)))
-            .catch(err => dispatch(getOrdersFailure(err)))
+            .then(orders => dispatch({type: GET_ORDERS, orders}))
+            .catch(error => dispatch({type: GET_ORDERS_FAILURE, payload: {error}}))
     }
 };
