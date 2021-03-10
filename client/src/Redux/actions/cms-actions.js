@@ -11,7 +11,7 @@ export const onChangeProductPrice = product => ({type: ON_CHANGE_PRODUCT_PRICE, 
 export const getOrders = () => {
     return dispatch => {
         dispatch({type: GET_ORDERS_STARTED});
-        fetch('http://localhost:5000/api/orders/')
+        fetch('http://80.249.150.93:80/api/orders/')
             .then(response => response.json())
             .then(orders => dispatch({type: GET_ORDERS, orders}))
             .catch(error => dispatch({type: GET_ORDERS_FAILURE, payload: {error}}))

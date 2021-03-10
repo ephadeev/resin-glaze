@@ -17,7 +17,7 @@ export const onChangeOrderApartment = order => ({type: ON_CHANGE_APARTMENT, payl
 // create new order
 export const createOrder = order => dispatch => {
     dispatch({type: CREATE_ORDER_STARTED});
-    return fetch('http://localhost:5000/api/orders/add', {
+    return fetch('http://80.249.150.93:80/api/orders/add', {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json;charset=utf-8'

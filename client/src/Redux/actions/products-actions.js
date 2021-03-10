@@ -6,7 +6,7 @@ import {
 export const getProducts = () => {
     return dispatch => {
         dispatch({type: GET_PRODUCTS_STARTED});
-        fetch('http://localhost:5000/api/products/')
+        fetch('http://80.249.150.93:80/api/products/')
             .then(response => response.json())
             .then(products => dispatch({type: GET_PRODUCTS, products}))
             .catch(error => dispatch({type: GET_PRODUCTS_FAILURE, payload: {error}}))
@@ -16,7 +16,7 @@ export const getProducts = () => {
 // get product
 export const getProduct = id => dispatch => {
         dispatch({type: GET_PRODUCT_STARTED});
-        fetch(`http://localhost:5000/api/products/${id}`)
+        fetch(`http://80.249.150.93:80/api/products/${id}`)
             .then(response => response.json())
             .then(product => dispatch({type: GET_PRODUCT, product}))
             .catch(error => dispatch({type: GET_PRODUCT_FAILURE, payload: {error}}))

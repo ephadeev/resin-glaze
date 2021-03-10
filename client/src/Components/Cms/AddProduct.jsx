@@ -19,7 +19,7 @@ const AddProduct = ({
         formData.append('price', productPrice);
         formData.append('image', fileData);
 
-        fetch('http://localhost:5000/api/products/add', {
+        fetch('http://80.249.150.93:80/api/products/add', {
             method: 'POST',
             body: formData
         })

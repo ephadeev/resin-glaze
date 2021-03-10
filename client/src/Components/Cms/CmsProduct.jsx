@@ -7,7 +7,7 @@ const CmsProduct = ({image, name, about, price, id, getProducts}) => {
     const message = useMessage();
 
     const deleteHandler = () => {
-        fetch(`http://localhost:5000/api/products/${id}`, {
+        fetch(`http://80.249.150.93:80/api/products/${id}`, {
             method: 'DELETE',
             headers: {
                 'Content-Type': 'application/json;charset=utf-8'
